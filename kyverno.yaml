@@ -35371,8 +35371,7 @@ metadata:
   name: kyverno
   namespace: nirmata-system
 spec:
-  secrets:
-  
+  secrets: operator-params
   namespace: kyverno
   repository: ghcr.io/test
   version: v1.10.6-n4k.nirmata.3
