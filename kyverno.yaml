@@ -1,12 +1,383 @@
 ---
+# Source: nirmata-kyverno-operator\crds\adapter.yaml
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  annotations:
+    controller-gen.kubebuilder.io/version: v0.10.0
+  labels:
+    app.kubernetes.io/part-of: nirmata-kyverno-operator
+  creationTimestamp: null
+  name: kyvernoadapters.security.nirmata.io
+spec:
+  group: security.nirmata.io
+  names:
+    kind: KyvernoAdapter
+    listKind: KyvernoAdapterList
+    plural: kyvernoadapters
+    singular: kyvernoadapter
+  scope: Namespaced
+  versions:
+  - additionalPrinterColumns:
+    - jsonPath: .spec.adapterType
+      name: Adapter Type
+      type: string
+    - jsonPath: .spec.namespace
+      name: Namespace
+      type: string
+    - jsonPath: .spec.version
+      name: Version
+      type: string
+    - jsonPath: .status.isRunning
+      name: Running
+      type: boolean
+    name: v1alpha1
+    schema:
+      openAPIV3Schema:
+        description: KyvernoAdapter is the Schema for the kyvernoadapters API
+        properties:
+          apiVersion:
+            description: 'APIVersion defines the versioned schema of this representation
+              of an object. Servers should convert recognized schemas to the latest
+              internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+            type: string
+          kind:
+            description: 'Kind is a string value representing the REST resource this
+              object represents. Servers may infer this from the endpoint the client
+              submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+            type: string
+          metadata:
+            type: object
+          spec:
+            description: KyvernoAdapterSpec defines the desired state of KyvernoAdapter
+            properties:
+              adapterType:
+                enum:
+                - AWS
+                - CIS
+                - Venafi
+                - Vulnerability
+                type: string
+              args:
+                description: Args for adapter deployment
+                items:
+                  type: string
+                type: array
+              envVars:
+                description: Environment variables for adapter deployment
+                items:
+                  type: string
+                type: array
+              helm:
+                additionalProperties:
+                  type: object
+                  x-kubernetes-preserve-unknown-fields: true
+                description: Finer customizations for each component are provided
+                  in a generic object structure, typically matching the value.yaml
+                  of individual components
+                type: object
+              imagePullSecret:
+                description: Adapter deployment image pull secret for private registries
+                type: string
+              namespace:
+                type: string
+              replicas:
+                default: 1
+                format: int32
+                type: integer
+              repository:
+                description: Deployment image in repository
+                type: string
+              version:
+                description: Image version tag
+                type: string
+            required:
+            - adapterType
+            - namespace
+            - repository
+            - version
+            type: object
+          status:
+            description: KyvernoAdapterStatus defines the observed state of KyvernoAdapter
+            properties:
+              errorMsg:
+                type: string
+              isRunning:
+                type: boolean
+              lastUpdated:
+                format: date-time
+                type: string
+            required:
+            - isRunning
+            type: object
+        type: object
+    served: true
+    storage: true
+    subresources:
+      status: {}
+
+---
+# Source: nirmata-kyverno-operator\crds\policySet.yaml
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  annotations:
+    controller-gen.kubebuilder.io/version: v0.10.0
+  labels:
+    app.kubernetes.io/part-of: nirmata-kyverno-operator
+  creationTimestamp: null
+  name: policysets.security.nirmata.io
+spec:
+  group: security.nirmata.io
+  names:
+    kind: PolicySet
+    listKind: PolicySetList
+    plural: policysets
+    singular: policyset
+  scope: Namespaced
+  versions:
+  - additionalPrinterColumns:
+    - jsonPath: .status.allPoliciesReady
+      name: All Policies Ready
+      type: boolean
+    name: v1alpha1
+    schema:
+      openAPIV3Schema:
+        description: PolicySet is the Schema for the PolicySets API
+        properties:
+          apiVersion:
+            description: 'APIVersion defines the versioned schema of this representation
+              of an object. Servers should convert recognized schemas to the latest
+              internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+            type: string
+          kind:
+            description: 'Kind is a string value representing the REST resource this
+              object represents. Servers may infer this from the endpoint the client
+              submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+            type: string
+          metadata:
+            type: object
+          spec:
+            description: PolicySetSpec defines the desired state of PolicySet
+            properties:
+              helm:
+                additionalProperties:
+                  type: object
+                  x-kubernetes-preserve-unknown-fields: true
+                description: Finer customizations for each component are provided
+                  in a generic object structure, typically matching the value.yaml
+                  of individual components
+                type: object
+              source:
+                properties:
+                  description:
+                    type: string
+                  helm:
+                    properties:
+                      chartName:
+                        type: string
+                      chartRepo:
+                        type: string
+                      version:
+                        type: string
+                      username:
+                        type: string
+                      passwordSecret:
+                        type: string
+                    type: object
+                type: object
+            type: object
+          status:
+            description: PolicySetStatus defines the observed state of PolicySet
+            properties:
+              allPoliciesReady:
+                type: boolean
+              lastUpdated:
+                format: date-time
+                type: string
+              policiesNotReady:
+                items:
+                  type: string
+                type: array
+            required:
+            - allPoliciesReady
+            type: object
+        type: object
+    served: true
+    storage: true
+    subresources:
+      status: {}
+
+---
+# Source: nirmata-kyverno-operator\crds\security.nirmata.io_kyvernoes.yaml
+---
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  annotations:
+    controller-gen.kubebuilder.io/version: v0.10.0
+  labels:
+    app.kubernetes.io/part-of: nirmata-kyverno-operator
+  creationTimestamp: null
+  name: kyvernoconfigs.security.nirmata.io
+spec:
+  group: security.nirmata.io
+  names:
+    kind: KyvernoConfig
+    listKind: KyvernoConfigList
+    plural: kyvernoconfigs
+    singular: kyvernoconfig
+    shortNames:
+    - kycfg
+    - kyvernocfg
+    - kyvernoconf
+  scope: Namespaced
+  versions:
+  - additionalPrinterColumns:
+    - jsonPath: .spec.namespace
+      name: Namespace
+      type: string
+    - jsonPath: .spec.version
+      name: Version
+      type: string
+    - jsonPath: .spec.replicas
+      name: Replicas
+      priority: 2
+      type: integer
+    - jsonPath: .status.isRunning
+      name: Running
+      type: boolean
+    - jsonPath: .status.isHA
+      name: HA Mode
+      type: boolean
+    name: v1alpha1
+    schema:
+      openAPIV3Schema:
+        description: Kyverno is the Schema for the kyvernoconfigs API
+        properties:
+          apiVersion:
+            description: 'APIVersion defines the versioned schema of this representation
+              of an object. Servers should convert recognized schemas to the latest
+              internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources'
+            type: string
+          kind:
+            description: 'Kind is a string value representing the REST resource this
+              object represents. Servers may infer this from the endpoint the client
+              submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds'
+            type: string
+          metadata:
+            type: object
+          spec:
+            description: KyvernoSpec defines the desired state of Kyverno
+            properties:
+              apiKey:
+                type: string
+              helm:
+                additionalProperties:
+                  type: object
+                  x-kubernetes-preserve-unknown-fields: true
+                description: Finer customizations for each component are provided
+                  in a generic object structure, typically matching the value.yaml
+                  of individual components
+                type: object
+              licenseKey:
+                type: string
+              namespace:
+                default: kyverno
+                enum:
+                - kyverno
+                type: string
+              replicas:
+                default: 1
+                format: int32
+                type: integer
+              repository:
+                default: ghcr.io/nirmata
+                type: string
+              secrets:
+                description: Secrets storing licenseKey, apiKey
+                type: string
+              version:
+                default: v1.10.4-n4k.nirmata.1
+                type: string
+            type: object
+          status:
+            description: KyvernoStatus defines the observed state of Kyverno
+            properties:
+              conditions:
+                description: Conditions provide observations of the operational state
+                  of a Cluster API resource.
+                items:
+                  description: Condition defines an observation of a Cluster API resource
+                    operational state.
+                  properties:
+                    lastTransitionTime:
+                      description: Last time the condition transitioned from one status
+                        to another. This should be when the underlying condition changed.
+                        If that is not known, then using the time when the API field
+                        changed is acceptable.
+                      format: date-time
+                      type: string
+                    message:
+                      description: A human readable message indicating details about
+                        the transition. This field may be empty.
+                      type: string
+                    reason:
+                      description: The reason for the condition's last transition
+                        in CamelCase. The specific API may choose whether or not this
+                        field is considered a guaranteed API. This field may not be
+                        empty.
+                      type: string
+                    severity:
+                      description: Severity provides an explicit classification of
+                        Reason code, so the users or machines can immediately understand
+                        the current situation and act accordingly. The Severity field
+                        MUST be set only when Status=False.
+                      type: string
+                    status:
+                      description: Status of the condition, one of True, False, Unknown.
+                      type: string
+                    type:
+                      description: Type of condition in CamelCase or in foo.example.com/CamelCase.
+                        Many .condition.type values are consistent across resources
+                        like Available, but because arbitrary conditions can be useful
+                        (see .node.status.conditions), the ability to deconflict is
+                        important.
+                      type: string
+                  required:
+                  - lastTransitionTime
+                  - status
+                  - type
+                  type: object
+                type: array
+              haCheckFailureReason:
+                type: string
+              isHA:
+                type: boolean
+              isRunning:
+                type: boolean
+              lastUpdated:
+                format: date-time
+                type: string
+            required:
+            - isHA
+            - isRunning
+            type: object
+        type: object
+    served: true
+    storage: true
+    subresources:
+      status: {}
+
+---
 # Source: nirmata-kyverno-operator/templates/kyverno-1.10/namespace/kyverno.yaml
 apiVersion: v1
 kind: Namespace
 metadata:
   labels:
     app.kubernetes.io/managed-by: Helm
-    app.kubernetes.io/version: v0.3.25-rc3
-    helm.sh/chart: kyverno-operator-v0.3.25-rc3
+    app.kubernetes.io/version: v0.3.25
+    helm.sh/chart: kyverno-operator-v0.3.25
   name: kyverno
 ---
 # Source: nirmata-kyverno-operator/templates/kyverno-1.10/admission-controller/serviceaccount.yaml
@@ -20,8 +391,8 @@ metadata:
     app.kubernetes.io/instance: nirmata-kyverno-operator
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/part-of: kyverno
-    app.kubernetes.io/version: v0.3.25-rc3
-    helm.sh/chart: kyverno-operator-v0.3.25-rc3
+    app.kubernetes.io/version: v0.3.25
+    helm.sh/chart: kyverno-operator-v0.3.25
 ---
 # Source: nirmata-kyverno-operator/templates/kyverno-1.10/background-controller/serviceaccount.yaml
 apiVersion: v1
@@ -34,8 +405,8 @@ metadata:
     app.kubernetes.io/instance: nirmata-kyverno-operator
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/part-of: kyverno
-    app.kubernetes.io/version: v0.3.25-rc3
-    helm.sh/chart: kyverno-operator-v0.3.25-rc3
+    app.kubernetes.io/version: v0.3.25
+    helm.sh/chart: kyverno-operator-v0.3.25
 ---
 # Source: nirmata-kyverno-operator/templates/kyverno-1.10/cleanup-controller/serviceaccount.yaml
 apiVersion: v1
@@ -48,8 +419,8 @@ metadata:
     app.kubernetes.io/instance: nirmata-kyverno-operator
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/part-of: kyverno
-    app.kubernetes.io/version: v0.3.25-rc3
-    helm.sh/chart: kyverno-operator-v0.3.25-rc3
+    app.kubernetes.io/version: v0.3.25
+    helm.sh/chart: kyverno-operator-v0.3.25
 ---
 # Source: nirmata-kyverno-operator/templates/kyverno-1.10/cleanup/serviceaccount.yaml
 apiVersion: v1
@@ -61,8 +432,8 @@ metadata:
     app.kubernetes.io/instance: nirmata-kyverno-operator
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/part-of: kyverno
-    app.kubernetes.io/version: v0.3.25-rc3
-    helm.sh/chart: kyverno-operator-v0.3.25-rc3
+    app.kubernetes.io/version: v0.3.25
+    helm.sh/chart: kyverno-operator-v0.3.25
 ---
 # Source: nirmata-kyverno-operator/templates/kyverno-1.10/reports-controller/serviceaccount.yaml
 apiVersion: v1
@@ -75,8 +446,8 @@ metadata:
     app.kubernetes.io/instance: nirmata-kyverno-operator
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/part-of: kyverno
-    app.kubernetes.io/version: v0.3.25-rc3
-    helm.sh/chart: kyverno-operator-v0.3.25-rc3
+    app.kubernetes.io/version: v0.3.25
+    helm.sh/chart: kyverno-operator-v0.3.25
 ---
 # Source: nirmata-kyverno-operator/templates/serviceaccount.yaml
 apiVersion: v1
@@ -91,27 +462,6 @@ metadata:
     test: foobar
     type: labels
 ---
-# Source: nirmata-kyverno-operator/templates/imagepullsecret.yaml
-apiVersion: v1
-kind: Secret
-metadata:
-  labels: 
-    helm.sh/chart: nirmata-kyverno-operator-v0.3.25-rc3
-    app.kubernetes.io/name: nirmata-kyverno-operator
-    app.kubernetes.io/instance: nirmata-kyverno-operator
-    control-plane: nirmata-kyverno-operator-controller-manager
-    app.kubernetes.io/version: "v0.2.7"
-    app.kubernetes.io/managed-by: Helm
-    app: nirmata-kyverno-operator
-  name: image-pull-secret
-  annotations:
-    test: foobar
-    type: Annotations
-  namespace: nirmata-system
-type: kubernetes.io/dockerconfigjson
-data:
-  .dockerconfigjson: eyJhdXRocyI6IHsiZ2hjci5pby9uaXJtYXRhIjogeyJhdXRoIjogIlBIWnBjMkV0Y21WbmFYTjBjbmt0ZFhObGNtNWhiV1UrT2p4MmFYTmhMWEpsWjJsemRISjVMWEJoYzNOM2IzSmtQZz09In19fQ==
----
 # Source: nirmata-kyverno-operator/templates/secret-for-cr-params.yaml
 apiVersion: v1
 kind: Secret
@@ -121,7 +471,7 @@ metadata:
     test: foobar
     type: Annotations
   labels:
-    helm.sh/chart: nirmata-kyverno-operator-v0.3.25-rc3
+    helm.sh/chart: nirmata-kyverno-operator-v0.3.25
     app.kubernetes.io/name: nirmata-kyverno-operator
     app.kubernetes.io/instance: nirmata-kyverno-operator
     control-plane: nirmata-kyverno-operator-controller-manager
@@ -143,7 +493,7 @@ metadata:
     test: foobar
     type: Annotations
   labels:
-    helm.sh/chart: nirmata-kyverno-operator-v0.3.25-rc3
+    helm.sh/chart: nirmata-kyverno-operator-v0.3.25
     app.kubernetes.io/name: nirmata-kyverno-operator
     app.kubernetes.io/instance: nirmata-kyverno-operator
     control-plane: nirmata-kyverno-operator-controller-manager
@@ -189,8 +539,8 @@ metadata:
     app.kubernetes.io/instance: nirmata-kyverno-operator
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/part-of: kyverno
-    app.kubernetes.io/version: v0.3.25-rc3
-    helm.sh/chart: kyverno-operator-v0.3.25-rc3
+    app.kubernetes.io/version: v0.3.25
+    helm.sh/chart: kyverno-operator-v0.3.25
   name: clusterpolicyreports.wgpolicyk8s.io
 spec:
   group: wgpolicyk8s.io
@@ -559,8 +909,8 @@ metadata:
     app.kubernetes.io/instance: nirmata-kyverno-operator
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/part-of: kyverno
-    app.kubernetes.io/version: v0.3.25-rc3
-    helm.sh/chart: kyverno-operator-v0.3.25-rc3
+    app.kubernetes.io/version: v0.3.25
+    helm.sh/chart: kyverno-operator-v0.3.25
   name: policyreports.wgpolicyk8s.io
 spec:
   group: wgpolicyk8s.io
@@ -928,8 +1278,8 @@ metadata:
     app.kubernetes.io/instance: nirmata-kyverno-operator
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/part-of: kyverno
-    app.kubernetes.io/version: v0.3.25-rc3
-    helm.sh/chart: kyverno-operator-v0.3.25-rc3
+    app.kubernetes.io/version: v0.3.25
+    helm.sh/chart: kyverno-operator-v0.3.25
   name: admissionreports.kyverno.io
 spec:
   group: kyverno.io
@@ -1268,8 +1618,8 @@ metadata:
     app.kubernetes.io/instance: nirmata-kyverno-operator
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/part-of: kyverno
-    app.kubernetes.io/version: v0.3.25-rc3
-    helm.sh/chart: kyverno-operator-v0.3.25-rc3
+    app.kubernetes.io/version: v0.3.25
+    helm.sh/chart: kyverno-operator-v0.3.25
   name: backgroundscanreports.kyverno.io
 spec:
   group: kyverno.io
@@ -1576,8 +1926,8 @@ metadata:
     app.kubernetes.io/instance: nirmata-kyverno-operator
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/part-of: kyverno
-    app.kubernetes.io/version: v0.3.25-rc3
-    helm.sh/chart: kyverno-operator-v0.3.25-rc3
+    app.kubernetes.io/version: v0.3.25
+    helm.sh/chart: kyverno-operator-v0.3.25
   name: cleanuppolicies.kyverno.io
 spec:
   group: kyverno.io
@@ -2693,8 +3043,8 @@ metadata:
     app.kubernetes.io/instance: nirmata-kyverno-operator
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/part-of: kyverno
-    app.kubernetes.io/version: v0.3.25-rc3
-    helm.sh/chart: kyverno-operator-v0.3.25-rc3
+    app.kubernetes.io/version: v0.3.25
+    helm.sh/chart: kyverno-operator-v0.3.25
   name: clusteradmissionreports.kyverno.io
 spec:
   group: kyverno.io
@@ -3034,8 +3384,8 @@ metadata:
     app.kubernetes.io/instance: nirmata-kyverno-operator
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/part-of: kyverno
-    app.kubernetes.io/version: v0.3.25-rc3
-    helm.sh/chart: kyverno-operator-v0.3.25-rc3
+    app.kubernetes.io/version: v0.3.25
+    helm.sh/chart: kyverno-operator-v0.3.25
   name: clusterbackgroundscanreports.kyverno.io
 spec:
   group: kyverno.io
@@ -3342,8 +3692,8 @@ metadata:
     app.kubernetes.io/instance: nirmata-kyverno-operator
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/part-of: kyverno
-    app.kubernetes.io/version: v0.3.25-rc3
-    helm.sh/chart: kyverno-operator-v0.3.25-rc3
+    app.kubernetes.io/version: v0.3.25
+    helm.sh/chart: kyverno-operator-v0.3.25
   name: clustercleanuppolicies.kyverno.io
 spec:
   group: kyverno.io
@@ -4459,8 +4809,8 @@ metadata:
     app.kubernetes.io/instance: nirmata-kyverno-operator
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/part-of: kyverno
-    app.kubernetes.io/version: v0.3.25-rc3
-    helm.sh/chart: kyverno-operator-v0.3.25-rc3
+    app.kubernetes.io/version: v0.3.25
+    helm.sh/chart: kyverno-operator-v0.3.25
   name: clusterpolicies.kyverno.io
 spec:
   group: kyverno.io
@@ -18750,8 +19100,8 @@ metadata:
     app.kubernetes.io/instance: nirmata-kyverno-operator
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/part-of: kyverno
-    app.kubernetes.io/version: v0.3.25-rc3
-    helm.sh/chart: kyverno-operator-v0.3.25-rc3
+    app.kubernetes.io/version: v0.3.25
+    helm.sh/chart: kyverno-operator-v0.3.25
   name: policies.kyverno.io
 spec:
   group: kyverno.io
@@ -33044,8 +33394,8 @@ metadata:
     app.kubernetes.io/instance: nirmata-kyverno-operator
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/part-of: kyverno
-    app.kubernetes.io/version: v0.3.25-rc3
-    helm.sh/chart: kyverno-operator-v0.3.25-rc3
+    app.kubernetes.io/version: v0.3.25
+    helm.sh/chart: kyverno-operator-v0.3.25
   name: policyexceptions.kyverno.io
 spec:
   group: kyverno.io
@@ -33571,8 +33921,8 @@ metadata:
     app.kubernetes.io/instance: nirmata-kyverno-operator
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/part-of: kyverno
-    app.kubernetes.io/version: v0.3.25-rc3
-    helm.sh/chart: kyverno-operator-v0.3.25-rc3
+    app.kubernetes.io/version: v0.3.25
+    helm.sh/chart: kyverno-operator-v0.3.25
   name: updaterequests.kyverno.io
 spec:
   group: kyverno.io
@@ -34101,8 +34451,8 @@ metadata:
     app.kubernetes.io/instance: nirmata-kyverno-operator
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/part-of: kyverno
-    app.kubernetes.io/version: v0.3.25-rc3
-    helm.sh/chart: kyverno-operator-v0.3.25-rc3
+    app.kubernetes.io/version: v0.3.25
+    helm.sh/chart: kyverno-operator-v0.3.25
 aggregationRule:
   clusterRoleSelectors:
     - matchLabels:
@@ -34120,8 +34470,8 @@ metadata:
     app.kubernetes.io/instance: nirmata-kyverno-operator
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/part-of: kyverno
-    app.kubernetes.io/version: v0.3.25-rc3
-    helm.sh/chart: kyverno-operator-v0.3.25-rc3
+    app.kubernetes.io/version: v0.3.25
+    helm.sh/chart: kyverno-operator-v0.3.25
 rules:
   - apiGroups:
       - admissionregistration.k8s.io
@@ -34219,8 +34569,8 @@ metadata:
     app.kubernetes.io/instance: nirmata-kyverno-operator
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/part-of: kyverno
-    app.kubernetes.io/version: v0.3.25-rc3
-    helm.sh/chart: kyverno-operator-v0.3.25-rc3
+    app.kubernetes.io/version: v0.3.25
+    helm.sh/chart: kyverno-operator-v0.3.25
 aggregationRule:
   clusterRoleSelectors:
     - matchLabels:
@@ -34238,8 +34588,8 @@ metadata:
     app.kubernetes.io/instance: nirmata-kyverno-operator
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/part-of: kyverno
-    app.kubernetes.io/version: v0.3.25-rc3
-    helm.sh/chart: kyverno-operator-v0.3.25-rc3
+    app.kubernetes.io/version: v0.3.25
+    helm.sh/chart: kyverno-operator-v0.3.25
 rules:
   - apiGroups:
       - '*'
@@ -34316,8 +34666,8 @@ metadata:
     app.kubernetes.io/instance: nirmata-kyverno-operator
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/part-of: kyverno
-    app.kubernetes.io/version: v0.3.25-rc3
-    helm.sh/chart: kyverno-operator-v0.3.25-rc3
+    app.kubernetes.io/version: v0.3.25
+    helm.sh/chart: kyverno-operator-v0.3.25
 aggregationRule:
   clusterRoleSelectors:
     - matchLabels:
@@ -34335,8 +34685,8 @@ metadata:
     app.kubernetes.io/instance: nirmata-kyverno-operator
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/part-of: kyverno
-    app.kubernetes.io/version: v0.3.25-rc3
-    helm.sh/chart: kyverno-operator-v0.3.25-rc3
+    app.kubernetes.io/version: v0.3.25
+    helm.sh/chart: kyverno-operator-v0.3.25
 rules:
   - apiGroups:
       - '*'
@@ -34417,8 +34767,8 @@ metadata:
     app.kubernetes.io/instance: nirmata-kyverno-operator
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/part-of: kyverno
-    app.kubernetes.io/version: v0.3.25-rc3
-    helm.sh/chart: kyverno-operator-v0.3.25-rc3
+    app.kubernetes.io/version: v0.3.25
+    helm.sh/chart: kyverno-operator-v0.3.25
 rules:
   - apiGroups:
       - kyverno.io
@@ -34440,8 +34790,8 @@ metadata:
     app.kubernetes.io/instance: nirmata-kyverno-operator
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/part-of: kyverno
-    app.kubernetes.io/version: v0.3.25-rc3
-    helm.sh/chart: kyverno-operator-v0.3.25-rc3
+    app.kubernetes.io/version: v0.3.25
+    helm.sh/chart: kyverno-operator-v0.3.25
     rbac.authorization.k8s.io/aggregate-to-admin: "true"
 rules:
   - apiGroups:
@@ -34470,8 +34820,8 @@ metadata:
     app.kubernetes.io/instance: nirmata-kyverno-operator
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/part-of: kyverno
-    app.kubernetes.io/version: v0.3.25-rc3
-    helm.sh/chart: kyverno-operator-v0.3.25-rc3
+    app.kubernetes.io/version: v0.3.25
+    helm.sh/chart: kyverno-operator-v0.3.25
     rbac.authorization.k8s.io/aggregate-to-view: "true"
 rules:
   - apiGroups:
@@ -34496,8 +34846,8 @@ metadata:
     app.kubernetes.io/instance: nirmata-kyverno-operator
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/part-of: kyverno
-    app.kubernetes.io/version: v0.3.25-rc3
-    helm.sh/chart: kyverno-operator-v0.3.25-rc3
+    app.kubernetes.io/version: v0.3.25
+    helm.sh/chart: kyverno-operator-v0.3.25
     rbac.authorization.k8s.io/aggregate-to-admin: "true"
 rules:
   - apiGroups:
@@ -34524,8 +34874,8 @@ metadata:
     app.kubernetes.io/instance: nirmata-kyverno-operator
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/part-of: kyverno
-    app.kubernetes.io/version: v0.3.25-rc3
-    helm.sh/chart: kyverno-operator-v0.3.25-rc3
+    app.kubernetes.io/version: v0.3.25
+    helm.sh/chart: kyverno-operator-v0.3.25
     rbac.authorization.k8s.io/aggregate-to-view: "true"
 rules:
   - apiGroups:
@@ -34548,8 +34898,8 @@ metadata:
     app.kubernetes.io/instance: nirmata-kyverno-operator
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/part-of: kyverno
-    app.kubernetes.io/version: v0.3.25-rc3
-    helm.sh/chart: kyverno-operator-v0.3.25-rc3
+    app.kubernetes.io/version: v0.3.25
+    helm.sh/chart: kyverno-operator-v0.3.25
     rbac.authorization.k8s.io/aggregate-to-admin: "true"
 rules:
   - apiGroups:
@@ -34578,8 +34928,8 @@ metadata:
     app.kubernetes.io/instance: nirmata-kyverno-operator
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/part-of: kyverno
-    app.kubernetes.io/version: v0.3.25-rc3
-    helm.sh/chart: kyverno-operator-v0.3.25-rc3
+    app.kubernetes.io/version: v0.3.25
+    helm.sh/chart: kyverno-operator-v0.3.25
     rbac.authorization.k8s.io/aggregate-to-view: "true"
 rules:
   - apiGroups:
@@ -34604,8 +34954,8 @@ metadata:
     app.kubernetes.io/instance: nirmata-kyverno-operator
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/part-of: kyverno
-    app.kubernetes.io/version: v0.3.25-rc3
-    helm.sh/chart: kyverno-operator-v0.3.25-rc3
+    app.kubernetes.io/version: v0.3.25
+    helm.sh/chart: kyverno-operator-v0.3.25
     rbac.authorization.k8s.io/aggregate-to-admin: "true"
 rules:
   - apiGroups:
@@ -34631,8 +34981,8 @@ metadata:
     app.kubernetes.io/instance: nirmata-kyverno-operator
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/part-of: kyverno
-    app.kubernetes.io/version: v0.3.25-rc3
-    helm.sh/chart: kyverno-operator-v0.3.25-rc3
+    app.kubernetes.io/version: v0.3.25
+    helm.sh/chart: kyverno-operator-v0.3.25
     rbac.authorization.k8s.io/aggregate-to-view: "true"
 rules:
   - apiGroups:
@@ -34654,8 +35004,8 @@ metadata:
     app.kubernetes.io/instance: nirmata-kyverno-operator
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/part-of: kyverno
-    app.kubernetes.io/version: v0.3.25-rc3
-    helm.sh/chart: kyverno-operator-v0.3.25-rc3
+    app.kubernetes.io/version: v0.3.25
+    helm.sh/chart: kyverno-operator-v0.3.25
 aggregationRule:
   clusterRoleSelectors:
     - matchLabels:
@@ -34673,8 +35023,8 @@ metadata:
     app.kubernetes.io/instance: nirmata-kyverno-operator
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/part-of: kyverno
-    app.kubernetes.io/version: v0.3.25-rc3
-    helm.sh/chart: kyverno-operator-v0.3.25-rc3
+    app.kubernetes.io/version: v0.3.25
+    helm.sh/chart: kyverno-operator-v0.3.25
 rules:
   - apiGroups:
       - '*'
@@ -34749,8 +35099,8 @@ metadata:
     app.kubernetes.io/instance: nirmata-kyverno-operator
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/part-of: kyverno
-    app.kubernetes.io/version: v0.3.25-rc3
-    helm.sh/chart: kyverno-operator-v0.3.25-rc3
+    app.kubernetes.io/version: v0.3.25
+    helm.sh/chart: kyverno-operator-v0.3.25
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole
@@ -34770,8 +35120,8 @@ metadata:
     app.kubernetes.io/instance: nirmata-kyverno-operator
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/part-of: kyverno
-    app.kubernetes.io/version: v0.3.25-rc3
-    helm.sh/chart: kyverno-operator-v0.3.25-rc3
+    app.kubernetes.io/version: v0.3.25
+    helm.sh/chart: kyverno-operator-v0.3.25
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole
@@ -34791,8 +35141,8 @@ metadata:
     app.kubernetes.io/instance: nirmata-kyverno-operator
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/part-of: kyverno
-    app.kubernetes.io/version: v0.3.25-rc3
-    helm.sh/chart: kyverno-operator-v0.3.25-rc3
+    app.kubernetes.io/version: v0.3.25
+    helm.sh/chart: kyverno-operator-v0.3.25
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole
@@ -34811,8 +35161,8 @@ metadata:
     app.kubernetes.io/instance: nirmata-kyverno-operator
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/part-of: kyverno
-    app.kubernetes.io/version: v0.3.25-rc3
-    helm.sh/chart: kyverno-operator-v0.3.25-rc3
+    app.kubernetes.io/version: v0.3.25
+    helm.sh/chart: kyverno-operator-v0.3.25
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole
@@ -34832,8 +35182,8 @@ metadata:
     app.kubernetes.io/instance: nirmata-kyverno-operator
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/part-of: kyverno
-    app.kubernetes.io/version: v0.3.25-rc3
-    helm.sh/chart: kyverno-operator-v0.3.25-rc3
+    app.kubernetes.io/version: v0.3.25
+    helm.sh/chart: kyverno-operator-v0.3.25
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole
@@ -34854,8 +35204,8 @@ metadata:
     app.kubernetes.io/instance: nirmata-kyverno-operator
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/part-of: kyverno
-    app.kubernetes.io/version: v0.3.25-rc3
-    helm.sh/chart: kyverno-operator-v0.3.25-rc3
+    app.kubernetes.io/version: v0.3.25
+    helm.sh/chart: kyverno-operator-v0.3.25
 rules:
   - apiGroups:
       - ''
@@ -34919,8 +35269,8 @@ metadata:
     app.kubernetes.io/instance: nirmata-kyverno-operator
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/part-of: kyverno
-    app.kubernetes.io/version: v0.3.25-rc3
-    helm.sh/chart: kyverno-operator-v0.3.25-rc3
+    app.kubernetes.io/version: v0.3.25
+    helm.sh/chart: kyverno-operator-v0.3.25
   namespace: kyverno
 rules:
   - apiGroups:
@@ -34955,8 +35305,8 @@ metadata:
     app.kubernetes.io/instance: nirmata-kyverno-operator
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/part-of: kyverno
-    app.kubernetes.io/version: v0.3.25-rc3
-    helm.sh/chart: kyverno-operator-v0.3.25-rc3
+    app.kubernetes.io/version: v0.3.25
+    helm.sh/chart: kyverno-operator-v0.3.25
   namespace: kyverno
 rules:
   - apiGroups:
@@ -35013,8 +35363,8 @@ metadata:
     app.kubernetes.io/instance: nirmata-kyverno-operator
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/part-of: kyverno
-    app.kubernetes.io/version: v0.3.25-rc3
-    helm.sh/chart: kyverno-operator-v0.3.25-rc3
+    app.kubernetes.io/version: v0.3.25
+    helm.sh/chart: kyverno-operator-v0.3.25
   namespace: kyverno
 rules:
   - apiGroups:
@@ -35085,8 +35435,8 @@ metadata:
     app.kubernetes.io/instance: nirmata-kyverno-operator
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/part-of: kyverno
-    app.kubernetes.io/version: v0.3.25-rc3
-    helm.sh/chart: kyverno-operator-v0.3.25-rc3
+    app.kubernetes.io/version: v0.3.25
+    helm.sh/chart: kyverno-operator-v0.3.25
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: Role
@@ -35106,8 +35456,8 @@ metadata:
     app.kubernetes.io/instance: nirmata-kyverno-operator
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/part-of: kyverno
-    app.kubernetes.io/version: v0.3.25-rc3
-    helm.sh/chart: kyverno-operator-v0.3.25-rc3
+    app.kubernetes.io/version: v0.3.25
+    helm.sh/chart: kyverno-operator-v0.3.25
   namespace: kyverno
 roleRef:
   apiGroup: rbac.authorization.k8s.io
@@ -35128,8 +35478,8 @@ metadata:
     app.kubernetes.io/instance: nirmata-kyverno-operator
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/part-of: kyverno
-    app.kubernetes.io/version: v0.3.25-rc3
-    helm.sh/chart: kyverno-operator-v0.3.25-rc3
+    app.kubernetes.io/version: v0.3.25
+    helm.sh/chart: kyverno-operator-v0.3.25
   namespace: kyverno
 roleRef:
   apiGroup: rbac.authorization.k8s.io
@@ -35165,8 +35515,8 @@ metadata:
     app.kubernetes.io/instance: nirmata-kyverno-operator
     app.kubernetes.io/managed-by: Helm
     app.kubernetes.io/part-of: kyverno
-    app.kubernetes.io/version: v0.3.25-rc3
-    helm.sh/chart: kyverno-operator-v0.3.25-rc3
+    app.kubernetes.io/version: v0.3.25
+    helm.sh/chart: kyverno-operator-v0.3.25
   namespace: kyverno
 roleRef:
   apiGroup: rbac.authorization.k8s.io
@@ -35223,7 +35573,7 @@ metadata:
     test: foobar
     type: Annotations
   labels:
-    helm.sh/chart: nirmata-kyverno-operator-v0.3.25-rc3
+    helm.sh/chart: nirmata-kyverno-operator-v0.3.25
     app.kubernetes.io/name: nirmata-kyverno-operator
     app.kubernetes.io/instance: nirmata-kyverno-operator
     control-plane: nirmata-kyverno-operator-controller-manager
@@ -35250,7 +35600,7 @@ kind: Deployment
 metadata:
   name: nirmata-kyverno-operator
   labels:
-    helm.sh/chart: nirmata-kyverno-operator-v0.3.25-rc3
+    helm.sh/chart: nirmata-kyverno-operator-v0.3.25
     app.kubernetes.io/name: nirmata-kyverno-operator
     app.kubernetes.io/instance: nirmata-kyverno-operator
     control-plane: nirmata-kyverno-operator-controller-manager
@@ -35263,7 +35613,7 @@ metadata:
     test: foobar
     type: Annotations
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app.kubernetes.io/name: nirmata-kyverno-operator
@@ -35359,7 +35709,7 @@ kind: KyvernoConfig
 metadata:
   annotations:
   labels:
-    helm.sh/chart: nirmata-kyverno-operator-v0.3.25-rc3
+    helm.sh/chart: nirmata-kyverno-operator-v0.3.25
     app.kubernetes.io/name: nirmata-kyverno-operator
     app.kubernetes.io/instance: nirmata-kyverno-operator
     control-plane: nirmata-kyverno-operator-controller-manager
@@ -35371,9 +35721,10 @@ metadata:
   name: kyverno
   namespace: nirmata-system
 spec:
-  secrets: operator-params
+  secrets:
+  
   namespace: kyverno
-  repository: ghcr.io/test
+  repository: ghcr.io
   version: v1.10.6-n4k.nirmata.3
   replicas: 3
 
@@ -35504,13 +35855,8 @@ spec:
         policyExceptions:
           enabled: true
           namespace: kyverno
-      imagePullSecrets:
-        image-pull-secret:
-          password: <visa-registry-password>
-          registry: ghcr.io/nirmata
-          username: <visa-registry-username>
       licenseManager:
-        imageRepository: ghcr.io/test/nirmata/kyverno-license-manager
+        imageRepository: ghcr.io/nirmata/kyverno-license-manager
         imageTag: v0.1.7
         productName: ""
       reportsController:
@@ -35661,71 +36007,71 @@ webhooks:
     resources:
     - kyvernoconfigs
   sideEffects: None
----
-# Source: nirmata-kyverno-operator/templates/pre-delete-hook.yaml
-apiVersion: batch/v1
-kind: Job
-metadata:
-  name: nirmata-kyverno-operator-operator-cleanup
-  namespace: nirmata-system
-  annotations:
-    "helm.sh/hook": pre-delete
-    "helm.sh/hook-weight": "3"
-    "helm.sh/hook-delete-policy": hook-succeeded
-    test: foobar
-    type: Annotations
-  labels:
-    app: nirmata-kyverno-operator-operator
-    helm.sh/chart: nirmata-kyverno-operator-v0.3.25-rc3
-    app.kubernetes.io/name: nirmata-kyverno-operator
-    app.kubernetes.io/instance: nirmata-kyverno-operator
-    control-plane: nirmata-kyverno-operator-controller-manager
-    app.kubernetes.io/version: "v0.2.7"
-    app.kubernetes.io/managed-by: Helm
-spec:
-  template:
-    metadata:
-      name: nirmata-kyverno-operator-operator-cleanup
-      labels:
-        app: nirmata-kyverno-operator-operator
-        helm.sh/chart: nirmata-kyverno-operator-v0.3.25-rc3
-        app.kubernetes.io/name: nirmata-kyverno-operator
-        app.kubernetes.io/instance: nirmata-kyverno-operator
-        control-plane: nirmata-kyverno-operator-controller-manager
-        app.kubernetes.io/version: "v0.2.7"
-        app.kubernetes.io/managed-by: Helm
-    spec:
-      imagePullSecrets: 
-      - name: image-pull-secret
-      serviceAccountName: nirmata-kyverno-operator
-      securityContext:
-        runAsUser: 1000
-        runAsGroup: 3000
-        runAsNonRoot: true
-        seccompProfile:
-          type: RuntimeDefault
-      containers:
-        - name: kubectl
-          image: ghcr.io/nirmata/kubectl:1.28.5
-          imagePullPolicy: IfNotPresent
-          command:
-          - sh
-          - -c
-          - >
-              for i in pod-security-restricted pod-security-baseline rbac-best-practices ; 
-              do 
-                kubectl -n nirmata-system delete PolicySet $i;
-              done;
-              kubectl -n nirmata-system delete kyvernoconfigs kyverno;
-              sleep 10;
-          securityContext:
-            allowPrivilegeEscalation: false
-            capabilities:
-              drop:
-              - ALL
-              - CAP_NET_RAW
-            readOnlyRootFilesystem: true
-          resources:
-            limits:
-              memory: 128Mi
-      restartPolicy: OnFailure
+# ---
+# # Source: nirmata-kyverno-operator/templates/pre-delete-hook.yaml
+# apiVersion: batch/v1
+# kind: Job
+# metadata:
+#   name: nirmata-kyverno-operator-operator-cleanup
+#   namespace: nirmata-system
+#   annotations:
+#     "helm.sh/hook": pre-delete
+#     "helm.sh/hook-weight": "3"
+#     "helm.sh/hook-delete-policy": hook-succeeded
+#     test: foobar
+#     type: Annotations
+#   labels:
+#     app: nirmata-kyverno-operator-operator
+#     helm.sh/chart: nirmata-kyverno-operator-v0.3.25
+#     app.kubernetes.io/name: nirmata-kyverno-operator
+#     app.kubernetes.io/instance: nirmata-kyverno-operator
+#     control-plane: nirmata-kyverno-operator-controller-manager
+#     app.kubernetes.io/version: "v0.2.7"
+#     app.kubernetes.io/managed-by: Helm
+# spec:
+#   template:
+#     metadata:
+#       name: nirmata-kyverno-operator-operator-cleanup
+#       labels:
+#         app: nirmata-kyverno-operator-operator
+#         helm.sh/chart: nirmata-kyverno-operator-v0.3.25
+#         app.kubernetes.io/name: nirmata-kyverno-operator
+#         app.kubernetes.io/instance: nirmata-kyverno-operator
+#         control-plane: nirmata-kyverno-operator-controller-manager
+#         app.kubernetes.io/version: "v0.2.7"
+#         app.kubernetes.io/managed-by: Helm
+#     spec:
+#       imagePullSecrets: 
+#       - name: image-pull-secret
+#       serviceAccountName: nirmata-kyverno-operator
+#       securityContext:
+#         runAsUser: 1000
+#         runAsGroup: 3000
+#         runAsNonRoot: true
+#         seccompProfile:
+#           type: RuntimeDefault
+#       containers:
+#         - name: kubectl
+#           image: ghcr.io/nirmata/kubectl:1.28.5
+#           imagePullPolicy: IfNotPresent
+#           command:
+#           - sh
+#           - -c
+#           - >
+#               for i in pod-security-restricted pod-security-baseline rbac-best-practices ; 
+#               do 
+#                 kubectl -n nirmata-system delete PolicySet $i;
+#               done;
+#               kubectl -n nirmata-system delete kyvernoconfigs kyverno;
+#               sleep 10;
+#           securityContext:
+#             allowPrivilegeEscalation: false
+#             capabilities:
+#               drop:
+#               - ALL
+#               - CAP_NET_RAW
+#             readOnlyRootFilesystem: true
+#           resources:
+#             limits:
+#               memory: 128Mi
+#       restartPolicy: OnFailure
