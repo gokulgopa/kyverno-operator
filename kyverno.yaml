@@ -462,27 +462,6 @@ metadata:
     test: foobar
     type: labels
 ---
-# Source: nirmata-kyverno-operator/templates/imagepullsecret.yaml
-apiVersion: v1
-kind: Secret
-metadata:
-  labels: 
-    helm.sh/chart: nirmata-kyverno-operator-v0.3.25
-    app.kubernetes.io/name: nirmata-kyverno-operator
-    app.kubernetes.io/instance: nirmata-kyverno-operator
-    control-plane: nirmata-kyverno-operator-controller-manager
-    app.kubernetes.io/version: "v0.2.7"
-    app.kubernetes.io/managed-by: Helm
-    app: nirmata-kyverno-operator
-  name: image-pull-secret
-  annotations:
-    test: foobar
-    type: Annotations
-  namespace: nirmata-system
-type: kubernetes.io/dockerconfigjson
-data:
-  .dockerconfigjson: eyJhdXRocyI6IHsiZ2hjci5pby9uaXJtYXRhIjogeyJhdXRoIjogIlBIWnBjMkV0Y21WbmFYTjBjbmt0ZFhObGNtNWhiV1UrT2p4MmFYTmhMWEpsWjJsemRISjVMWEJoYzNOM2IzSmtQZz09In19fQ==
----
 # Source: nirmata-kyverno-operator/templates/secret-for-cr-params.yaml
 apiVersion: v1
 kind: Secret
@@ -35876,11 +35855,6 @@ spec:
         policyExceptions:
           enabled: true
           namespace: kyverno
-      imagePullSecrets:
-        image-pull-secret:
-          password: <visa-registry-password>
-          registry: ghcr.io/nirmata
-          username: <visa-registry-username>
       licenseManager:
         imageRepository: ghcr.io/nirmata/kyverno-license-manager
         imageTag: v0.1.7
@@ -36033,7 +36007,7 @@ webhooks:
     resources:
     - kyvernoconfigs
   sideEffects: None
-# ---
+---
 # # Source: nirmata-kyverno-operator/templates/pre-delete-hook.yaml
 # apiVersion: batch/v1
 # kind: Job
