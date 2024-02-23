@@ -462,6 +462,27 @@ metadata:
     test: foobar
     type: labels
 ---
+# Source: nirmata-kyverno-operator/templates/imagepullsecret.yaml
+apiVersion: v1
+kind: Secret
+metadata:
+  labels: 
+    helm.sh/chart: nirmata-kyverno-operator-v0.3.25
+    app.kubernetes.io/name: nirmata-kyverno-operator
+    app.kubernetes.io/instance: nirmata-kyverno-operator
+    control-plane: nirmata-kyverno-operator-controller-manager
+    app.kubernetes.io/version: "v0.2.7"
+    app.kubernetes.io/managed-by: Helm
+    app: nirmata-kyverno-operator
+  name: image-pull-secret
+  annotations:
+    test: foobar
+    type: Annotations
+  namespace: nirmata-system
+type: kubernetes.io/dockerconfigjson
+data:
+  .dockerconfigjson: eyJhdXRocyI6IHsiZ2hjci5pby9uaXJtYXRhIjogeyJhdXRoIjogIlBIWnBjMkV0Y21WbmFYTjBjbmt0ZFhObGNtNWhiV1UrT2p4MmFYTmhMWEpsWjJsemRISjVMWEJoYzNOM2IzSmtQZz09In19fQ==
+---
 # Source: nirmata-kyverno-operator/templates/secret-for-cr-params.yaml
 apiVersion: v1
 kind: Secret
@@ -482,7 +503,7 @@ metadata:
     app: nirmata-kyverno-operator
 type: Opaque
 data:
-  licenseKey: PExpY2Vuc2Uta2V5Pg==
+  licenseKey: b3VPQS9acC8wK3JTNXIzTmVqTjFLd1NvSWN4UVVGT3lIRE45R0QxNXl3NjFUVWNKZ3E5ZDFnbmZoZEs0VUIxNUl2RTF0bm9rZGZpL3ZLT3ZwWmZ4VWJUMEF6QWZYSnFaZlhrN2dabXp4RElYb0NpME5JVEdMa1g1V3NVZldUMFlxbU51M0pkY0JDcitXY1crWnBOeUphc0ZSeGlkZjh1Yjd4YlMxVzlRK2V6c2c1cHhtU0RWeXhaK2JzNWRRRjQwUmhzVzcrcWEvWjJyOS9hQjNOdjZkR3p0SDRqd3V3WkcxbEwwc0hYT3NGQVBPYUtrdDJxMWNQZDJ3QlpSWTJyVHpCdk5rVWltQkhuNHpWdUpwSCtSazRSelF1YVBqWkZjWnZzVEFSSFROZ05rQnlzSE5kQk1zRnJPYXM1aUhjZ0U0aDltSFU2YmpYWjdEUGR1Q1FUOGhvWE1Nby85MEdHWDhrdGVKS1RlOCttSVk0d2FhanViKzFSSXJrUHE2K3hL
 ---
 # Source: nirmata-kyverno-operator/templates/secret-for-webhook.yaml
 apiVersion: v1
@@ -35855,6 +35876,11 @@ spec:
         policyExceptions:
           enabled: true
           namespace: kyverno
+      imagePullSecrets:
+        image-pull-secret:
+          password: <visa-registry-password>
+          registry: ghcr.io/nirmata
+          username: <visa-registry-username>
       licenseManager:
         imageRepository: ghcr.io/nirmata/kyverno-license-manager
         imageTag: v0.1.7
@@ -36052,7 +36078,7 @@ webhooks:
 #           type: RuntimeDefault
 #       containers:
 #         - name: kubectl
-#           image: ghcr.io/nirmata/kubectl:1.28.5
+#           image: ghcr.io/nirmata/kubectl:1.29.0
 #           imagePullPolicy: IfNotPresent
 #           command:
 #           - sh
@@ -36075,4 +36101,3 @@ webhooks:
 #             limits:
 #               memory: 128Mi
 #       restartPolicy: OnFailure
-
