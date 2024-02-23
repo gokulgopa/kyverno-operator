@@ -36007,70 +36007,70 @@ webhooks:
     - kyvernoconfigs
   sideEffects: None
 ---
-# # Source: nirmata-kyverno-operator/templates/pre-delete-hook.yaml
-# apiVersion: batch/v1
-# kind: Job
-# metadata:
-#   name: nirmata-kyverno-operator-operator-cleanup
-#   namespace: nirmata-system
-#   annotations:
-#     "helm.sh/hook": pre-delete
-#     "helm.sh/hook-weight": "3"
-#     "helm.sh/hook-delete-policy": hook-succeeded
-#     test: foobar
-#     type: Annotations
-#   labels:
-#     app: nirmata-kyverno-operator-operator
-#     helm.sh/chart: nirmata-kyverno-operator-v0.3.25
-#     app.kubernetes.io/name: nirmata-kyverno-operator
-#     app.kubernetes.io/instance: nirmata-kyverno-operator
-#     control-plane: nirmata-kyverno-operator-controller-manager
-#     app.kubernetes.io/version: "v0.2.7"
-#     app.kubernetes.io/managed-by: Helm
-# spec:
-#   template:
-#     metadata:
-#       name: nirmata-kyverno-operator-operator-cleanup
-#       labels:
-#         app: nirmata-kyverno-operator-operator
-#         helm.sh/chart: nirmata-kyverno-operator-v0.3.25
-#         app.kubernetes.io/name: nirmata-kyverno-operator
-#         app.kubernetes.io/instance: nirmata-kyverno-operator
-#         control-plane: nirmata-kyverno-operator-controller-manager
-#         app.kubernetes.io/version: "v0.2.7"
-#         app.kubernetes.io/managed-by: Helm
-#     spec:
-#       imagePullSecrets: 
-#       - name: image-pull-secret
-#       serviceAccountName: nirmata-kyverno-operator
-#       securityContext:
-#         runAsUser: 1000
-#         runAsGroup: 3000
-#         runAsNonRoot: true
-#         seccompProfile:
-#           type: RuntimeDefault
-#       containers:
-#         - name: kubectl
-#           image: ghcr.io/nirmata/kubectl:1.29.0
-#           imagePullPolicy: IfNotPresent
-#           command:
-#           - sh
-#           - -c
-#           - >
-#               for i in pod-security-restricted pod-security-baseline rbac-best-practices ; 
-#               do 
-#                 kubectl -n nirmata-system delete PolicySet $i;
-#               done;
-#               kubectl -n nirmata-system delete kyvernoconfigs kyverno;
-#               sleep 10;
-#           securityContext:
-#             allowPrivilegeEscalation: false
-#             capabilities:
-#               drop:
-#               - ALL
-#               - CAP_NET_RAW
-#             readOnlyRootFilesystem: true
-#           resources:
-#             limits:
-#               memory: 128Mi
-#       restartPolicy: OnFailure
+# Source: nirmata-kyverno-operator/templates/pre-delete-hook.yaml
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: nirmata-kyverno-operator-operator-cleanup
+  namespace: nirmata-system
+  annotations:
+    "helm.sh/hook": pre-delete
+    "helm.sh/hook-weight": "3"
+    "helm.sh/hook-delete-policy": hook-succeeded
+    test: foobar
+    type: Annotations
+  labels:
+    app: nirmata-kyverno-operator-operator
+    helm.sh/chart: nirmata-kyverno-operator-v0.3.25
+    app.kubernetes.io/name: nirmata-kyverno-operator
+    app.kubernetes.io/instance: nirmata-kyverno-operator
+    control-plane: nirmata-kyverno-operator-controller-manager
+    app.kubernetes.io/version: "v0.2.7"
+    app.kubernetes.io/managed-by: Helm
+spec:
+  template:
+    metadata:
+      name: nirmata-kyverno-operator-operator-cleanup
+      labels:
+        app: nirmata-kyverno-operator-operator
+        helm.sh/chart: nirmata-kyverno-operator-v0.3.25
+        app.kubernetes.io/name: nirmata-kyverno-operator
+        app.kubernetes.io/instance: nirmata-kyverno-operator
+        control-plane: nirmata-kyverno-operator-controller-manager
+        app.kubernetes.io/version: "v0.2.7"
+        app.kubernetes.io/managed-by: Helm
+    spec:
+      imagePullSecrets: 
+      - name: image-pull-secret
+      serviceAccountName: nirmata-kyverno-operator
+      securityContext:
+        runAsUser: 1000
+        runAsGroup: 3000
+        runAsNonRoot: true
+        seccompProfile:
+          type: RuntimeDefault
+      containers:
+        - name: kubectl
+          image: ghcr.io/nirmata/kubectl:1.29.0
+          imagePullPolicy: IfNotPresent
+          command:
+          - sh
+          - -c
+          - >
+              for i in pod-security-restricted pod-security-baseline rbac-best-practices ; 
+              do 
+                kubectl -n nirmata-system delete PolicySet $i;
+              done;
+              kubectl -n nirmata-system delete kyvernoconfigs kyverno;
+              sleep 10;
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+              - ALL
+              - CAP_NET_RAW
+            readOnlyRootFilesystem: true
+          resources:
+            limits:
+              memory: 128Mi
+      restartPolicy: OnFailure
