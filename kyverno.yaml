@@ -482,7 +482,7 @@ metadata:
     app: nirmata-kyverno-operator
 type: Opaque
 data:
-  licenseKey: b3VPQS9acC8wK3JTNXIzTmVqTjFLd1NvSWN4UVVGT3lIRE45R0QxNXl3NjFUVWNKZ3E5ZDFnbmZoZEs0VUIxNUl2RTF0bm9rZGZpL3ZLT3ZwWmZ4VWJUMEF6QWZYSnFaZlhrN2dabXp4RElYb0NpME5JVEdMa1g1V3NVZldUMFlxbU51M0pkY0JDcitXY1crWnBOeUphc0ZSeGlkZjh1Yjd4YlMxVzlRK2V6c2c1cHhtU0RWeXhaK2JzNWRRRjQwUmhzVzcrcWEvWjJyOS9hQjNOdjZkR3p0SDRqd3V3WkcxbEwwc0hYT3NGQVBPYUtrdDJxMWNQZDJ3QlpSWTJyVHpCdk5rVWltQkhuNHpWdUpwSCtSazRSelF1YVBqWkZjWnZzVEFSSFROZ05rQnlzSE5kQk1zRnJPYXM1aUhjZ0U0aDltSFU2YmpYWjdEUGR1Q1FUOGhvWE1Nby85MEdHWDhrdGVKS1RlOCttSVk0d2FhanViKzFSSXJrUHE2K3hL
+  licenseKey: PExpY2Vuc2Uta2V5Pg==
 ---
 # Source: nirmata-kyverno-operator/templates/secret-for-webhook.yaml
 apiVersion: v1
@@ -36075,3 +36075,4 @@ webhooks:
 #             limits:
 #               memory: 128Mi
 #       restartPolicy: OnFailure
+
