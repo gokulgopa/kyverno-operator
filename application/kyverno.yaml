@@ -35721,7 +35721,8 @@ metadata:
   name: kyverno
   namespace: nirmata-system
 spec:
-  secrets: operator-params
+  secrets:
+  
   namespace: kyverno
   repository: ghcr.io
   version: v1.10.6-n4k.nirmata.3
@@ -35835,6 +35836,11 @@ spec:
           test: foobar
           type: labels
       config:
+        resourceFilters:
+        - '[*,nirmata,*]'
+        - '[*,nirmata-system,*]'
+        - '[*,kube-system,*]'
+        - '[*,kyverno,*]'
         webhooks:
         - namespaceSelector:
             matchExpressions:
@@ -35851,9 +35857,8 @@ spec:
         test: foobar
         type: labels
       features:
-        policyExceptions:
-          enabled: true
-          namespace: kyverno
+        backgroundScan:
+          skipResourceFilters: false
       licenseManager:
         imageRepository: ghcr.io/nirmata/kyverno-license-manager
         imageTag: v0.1.7
