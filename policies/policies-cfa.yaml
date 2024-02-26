@@ -143,6 +143,7 @@ status:
     mutate: 1
     validate: 0
     verifyimages: 0
+---
 apiVersion: kyverno.io/v1
 kind: ClusterPolicy
 metadata:
@@ -201,6 +202,7 @@ status:
     mutate: 0
     validate: 0
     verifyimages: 0
+---
 apiVersion: kyverno.io/v1
 kind: ClusterPolicy
 metadata:
@@ -259,6 +261,7 @@ status:
     mutate: 0
     validate: 0
     verifyimages: 0
+---
 apiVersion: kyverno.io/v1
 kind: ClusterPolicy
 metadata:
@@ -413,6 +416,7 @@ status:
     mutate: 1
     validate: 0
     verifyimages: 0
+---
 apiVersion: kyverno.io/v1
 kind: ClusterPolicy
 metadata:
@@ -547,6 +551,7 @@ status:
     mutate: 1
     validate: 0
     verifyimages: 0
+---
 apiVersion: kyverno.io/v1
 kind: ClusterPolicy
 metadata:
@@ -649,6 +654,7 @@ status:
     mutate: 0
     validate: 1
     verifyimages: 0
+---
 apiVersion: kyverno.io/v1
 kind: ClusterPolicy
 metadata:
@@ -834,6 +840,7 @@ status:
     mutate: 0
     validate: 1
     verifyimages: 0
+---
 apiVersion: kyverno.io/v1
 kind: ClusterPolicy
 metadata:
@@ -912,6 +919,7 @@ status:
     mutate: 0
     validate: 1
     verifyimages: 0
+---
 apiVersion: kyverno.io/v1
 kind: ClusterPolicy
 metadata:
@@ -968,6 +976,7 @@ status:
     mutate: 0
     validate: 1
     verifyimages: 0
+---
 apiVersion: kyverno.io/v1
 kind: ClusterPolicy
 metadata:
@@ -1036,6 +1045,7 @@ status:
     mutate: 0
     validate: 1
     verifyimages: 0
+---
 apiVersion: kyverno.io/v1
 kind: ClusterPolicy
 metadata:
@@ -1304,6 +1314,7 @@ status:
     mutate: 0
     validate: 1
     verifyimages: 0
+---
 apiVersion: kyverno.io/v1
 kind: ClusterPolicy
 metadata:
@@ -1367,6 +1378,7 @@ status:
     mutate: 0
     validate: 1
     verifyimages: 0
+---
 apiVersion: kyverno.io/v1
 kind: ClusterPolicy
 metadata:
@@ -1440,6 +1452,7 @@ status:
     mutate: 0
     validate: 1
     verifyimages: 0
+---
 apiVersion: kyverno.io/v1
 kind: ClusterPolicy
 metadata:
@@ -1492,6 +1505,7 @@ status:
     mutate: 1
     validate: 0
     verifyimages: 0
+---
 apiVersion: kyverno.io/v1
 kind: ClusterPolicy
 metadata:
@@ -1800,6 +1814,7 @@ status:
     mutate: 0
     validate: 2
     verifyimages: 0
+---
 apiVersion: kyverno.io/v1
 kind: ClusterPolicy
 metadata:
@@ -2018,6 +2033,7 @@ status:
     mutate: 0
     validate: 3
     verifyimages: 0
+---
 apiVersion: kyverno.io/v1
 kind: ClusterPolicy
 metadata:
@@ -2083,6 +2099,7 @@ status:
     mutate: 0
     validate: 2
     verifyimages: 0
+---
 apiVersion: kyverno.io/v1
 kind: ClusterPolicy
 metadata:
@@ -2184,6 +2201,7 @@ status:
     mutate: 0
     validate: 1
     verifyimages: 0
+---
 apiVersion: kyverno.io/v1
 kind: ClusterPolicy
 metadata:
@@ -2336,6 +2354,7 @@ status:
     mutate: 0
     validate: 1
     verifyimages: 0
+---
 apiVersion: kyverno.io/v1
 kind: ClusterPolicy
 metadata:
@@ -2496,6 +2515,7 @@ status:
     mutate: 0
     validate: 1
     verifyimages: 0
+---
 apiVersion: kyverno.io/v1
 kind: ClusterPolicy
 metadata:
@@ -2668,6 +2688,7 @@ status:
     mutate: 0
     validate: 1
     verifyimages: 0
+---
 apiVersion: kyverno.io/v1
 kind: ClusterPolicy
 metadata:
@@ -2805,6 +2826,7 @@ status:
     mutate: 0
     validate: 1
     verifyimages: 0
+---
 apiVersion: kyverno.io/v1
 kind: ClusterPolicy
 metadata:
@@ -2948,6 +2970,7 @@ status:
     mutate: 0
     validate: 1
     verifyimages: 0
+---
 apiVersion: kyverno.io/v1
 kind: ClusterPolicy
 metadata:
@@ -3006,6 +3029,7 @@ status:
     mutate: 0
     validate: 1
     verifyimages: 0
+---
 apiVersion: kyverno.io/v1
 kind: ClusterPolicy
 metadata:
@@ -3085,6 +3109,7 @@ status:
     mutate: 0
     validate: 1
     verifyimages: 0
+---
 apiVersion: kyverno.io/v1
 kind: ClusterPolicy
 metadata:
@@ -3253,6 +3278,7 @@ status:
     mutate: 0
     validate: 1
     verifyimages: 0
+---
 apiVersion: kyverno.io/v1
 kind: ClusterPolicy
 metadata:
@@ -3386,6 +3412,7 @@ status:
     mutate: 0
     validate: 1
     verifyimages: 0
+---
 apiVersion: kyverno.io/v1
 kind: ClusterPolicy
 metadata:
@@ -3738,6 +3765,7 @@ status:
     mutate: 0
     validate: 2
     verifyimages: 0
+---
 apiVersion: kyverno.io/v1
 kind: ClusterPolicy
 metadata:
@@ -3859,6 +3887,7 @@ status:
     mutate: 1
     validate: 0
     verifyimages: 0
+---
 apiVersion: kyverno.io/v1
 kind: ClusterPolicy
 metadata:
@@ -3917,6 +3946,7 @@ status:
     mutate: 0
     validate: 1
     verifyimages: 0
+---
 apiVersion: kyverno.io/v1
 kind: ClusterPolicy
 metadata:
@@ -4038,6 +4068,7 @@ status:
     mutate: 1
     validate: 0
     verifyimages: 0
+---
 apiVersion: kyverno.io/v1
 kind: ClusterPolicy
 metadata:
@@ -4088,6 +4119,7 @@ status:
     mutate: 0
     validate: 1
     verifyimages: 0
+---
 apiVersion: kyverno.io/v1
 kind: ClusterPolicy
 metadata:
@@ -4152,6 +4184,7 @@ status:
     mutate: 0
     validate: 1
     verifyimages: 0
+---
 apiVersion: kyverno.io/v1
 kind: ClusterPolicy
 metadata:
@@ -4260,6 +4293,7 @@ status:
     mutate: 0
     validate: 1
     verifyimages: 0
+---
 apiVersion: kyverno.io/v1
 kind: ClusterPolicy
 metadata:
@@ -4336,6 +4370,7 @@ status:
     mutate: 0
     validate: 2
     verifyimages: 0
+---
 apiVersion: kyverno.io/v1
 kind: ClusterPolicy
 metadata:
@@ -4473,6 +4508,7 @@ status:
     mutate: 0
     validate: 1
     verifyimages: 0
+---
 apiVersion: kyverno.io/v1
 kind: ClusterPolicy
 metadata:
@@ -4952,6 +4988,7 @@ status:
     mutate: 0
     validate: 3
     verifyimages: 0
+---
 apiVersion: kyverno.io/v1
 kind: ClusterPolicy
 metadata:
@@ -5084,6 +5121,7 @@ status:
     mutate: 0
     validate: 1
     verifyimages: 0
+---
 apiVersion: kyverno.io/v1
 kind: ClusterPolicy
 metadata:
@@ -5279,6 +5317,7 @@ status:
     mutate: 0
     validate: 1
     verifyimages: 0
+---
 apiVersion: kyverno.io/v1
 kind: ClusterPolicy
 metadata:
@@ -5529,6 +5568,7 @@ status:
     mutate: 0
     validate: 1
     verifyimages: 0
+---
 apiVersion: kyverno.io/v1
 kind: ClusterPolicy
 metadata:
@@ -5643,6 +5683,7 @@ status:
     mutate: 0
     validate: 1
     verifyimages: 0
+---
 apiVersion: kyverno.io/v1
 kind: ClusterPolicy
 metadata:
@@ -5879,6 +5920,7 @@ status:
     mutate: 0
     validate: 1
     verifyimages: 0
+---
 apiVersion: kyverno.io/v1
 kind: ClusterPolicy
 metadata:
@@ -5942,6 +5984,7 @@ status:
     mutate: 0
     validate: 1
     verifyimages: 0
+---
 apiVersion: kyverno.io/v1
 kind: ClusterPolicy
 metadata:
@@ -6021,6 +6064,7 @@ status:
     mutate: 0
     validate: 3
     verifyimages: 0
+---
 apiVersion: kyverno.io/v1
 kind: ClusterPolicy
 metadata:
@@ -6104,6 +6148,7 @@ status:
     mutate: 0
     validate: 1
     verifyimages: 0
+---
 apiVersion: kyverno.io/v1
 kind: ClusterPolicy
 metadata:
@@ -6167,6 +6212,7 @@ status:
     mutate: 0
     validate: 1
     verifyimages: 0
+---
 apiVersion: kyverno.io/v1
 kind: ClusterPolicy
 metadata:
@@ -6252,6 +6298,7 @@ status:
     mutate: 0
     validate: 1
     verifyimages: 0
+---
 apiVersion: kyverno.io/v1
 kind: ClusterPolicy
 metadata:
@@ -6324,6 +6371,7 @@ status:
     mutate: 0
     validate: 1
     verifyimages: 0
+---
 apiVersion: kyverno.io/v1
 kind: ClusterPolicy
 metadata:
@@ -6373,6 +6421,7 @@ status:
     mutate: 0
     validate: 1
     verifyimages: 0
+---
 apiVersion: kyverno.io/v1
 kind: ClusterPolicy
 metadata:
@@ -6437,6 +6486,7 @@ status:
     mutate: 0
     validate: 1
     verifyimages: 0
+---
 apiVersion: kyverno.io/v1
 kind: ClusterPolicy
 metadata:
@@ -6614,6 +6664,7 @@ status:
     mutate: 0
     validate: 1
     verifyimages: 0
+---
 apiVersion: kyverno.io/v1
 kind: ClusterPolicy
 metadata:
@@ -6671,6 +6722,7 @@ status:
     mutate: 0
     validate: 1
     verifyimages: 0
+---
 apiVersion: kyverno.io/v1
 kind: ClusterPolicy
 metadata:
@@ -6736,6 +6788,7 @@ status:
     mutate: 0
     validate: 1
     verifyimages: 0
+---
 apiVersion: kyverno.io/v1
 kind: ClusterPolicy
 metadata:
@@ -6794,6 +6847,7 @@ status:
     mutate: 0
     validate: 1
     verifyimages: 0
+---
 apiVersion: kyverno.io/v1
 kind: ClusterPolicy
 metadata:
@@ -6844,6 +6898,7 @@ status:
     mutate: 0
     validate: 1
     verifyimages: 0
+---
 apiVersion: kyverno.io/v1
 kind: ClusterPolicy
 metadata:
@@ -6957,6 +7012,7 @@ status:
     mutate: 0
     validate: 1
     verifyimages: 0
+---
 apiVersion: kyverno.io/v1
 kind: ClusterPolicy
 metadata:
@@ -7012,6 +7068,7 @@ status:
     mutate: 0
     validate: 1
     verifyimages: 0
+---
 apiVersion: kyverno.io/v1
 kind: ClusterPolicy
 metadata:
@@ -7162,6 +7219,7 @@ status:
     mutate: 0
     validate: 1
     verifyimages: 0
+---
 apiVersion: kyverno.io/v1
 kind: ClusterPolicy
 metadata:
@@ -7259,6 +7317,7 @@ status:
     mutate: 0
     validate: 1
     verifyimages: 0
+---
 apiVersion: kyverno.io/v1
 kind: ClusterPolicy
 metadata:
@@ -7380,6 +7439,7 @@ status:
     mutate: 0
     validate: 1
     verifyimages: 0
+---
 apiVersion: kyverno.io/v1
 kind: ClusterPolicy
 metadata:
@@ -7564,6 +7624,7 @@ status:
     mutate: 0
     validate: 1
     verifyimages: 0
+---
 apiVersion: kyverno.io/v1
 kind: ClusterPolicy
 metadata:
@@ -7645,6 +7706,7 @@ status:
     mutate: 0
     validate: 1
     verifyimages: 0
+---
 apiVersion: kyverno.io/v1
 kind: ClusterPolicy
 metadata:
@@ -7721,6 +7783,7 @@ status:
     mutate: 0
     validate: 1
     verifyimages: 0
+---
 apiVersion: kyverno.io/v1
 kind: ClusterPolicy
 metadata:
@@ -7807,6 +7870,7 @@ status:
     mutate: 0
     validate: 1
     verifyimages: 0
+---
 apiVersion: kyverno.io/v1
 kind: ClusterPolicy
 metadata:
