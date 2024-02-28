@@ -1,3 +1,4 @@
+---
 apiVersion: kyverno.io/v1
 kind: ClusterPolicy
 metadata:
@@ -7692,20 +7693,6 @@ spec:
         list: request.object.rules
       message: ClustRoles with unrestricted secret access are not allowed.
   validationFailureAction: audit
-status:
-  autogen: {}
-  conditions:
-  - lastTransitionTime: "2024-02-23T16:11:32Z"
-    message: ""
-    reason: Succeeded
-    status: "True"
-    type: Ready
-  ready: true
-  rulecount:
-    generate: 0
-    mutate: 0
-    validate: 1
-    verifyimages: 0
 ---
 apiVersion: kyverno.io/v1
 kind: ClusterPolicy
@@ -7769,20 +7756,6 @@ spec:
         list: request.object.rules
       message: Roles with unrestricted secret access are not allowed.
   validationFailureAction: audit
-status:
-  autogen: {}
-  conditions:
-  - lastTransitionTime: "2024-02-23T16:11:54Z"
-    message: ""
-    reason: Succeeded
-    status: "True"
-    type: Ready
-  ready: true
-  rulecount:
-    generate: 0
-    mutate: 0
-    validate: 1
-    verifyimages: 0
 ---
 apiVersion: kyverno.io/v1
 kind: ClusterPolicy
@@ -7856,20 +7829,6 @@ spec:
             value: true
       message: Use of a wildcard ('*') in any verbs is forbidden.
   validationFailureAction: audit
-status:
-  autogen: {}
-  conditions:
-  - lastTransitionTime: "2024-02-23T16:11:32Z"
-    message: ""
-    reason: Succeeded
-    status: "True"
-    type: Ready
-  ready: true
-  rulecount:
-    generate: 0
-    mutate: 0
-    validate: 1
-    verifyimages: 0
 ---
 apiVersion: kyverno.io/v1
 kind: ClusterPolicy
@@ -7910,20 +7869,3 @@ spec:
           verbs:
           - '*'
   validationFailureAction: Audit
-status:
-  autogen: {}
-  conditions:
-  - lastTransitionTime: "2024-02-23T16:11:53Z"
-    message: ""
-    reason: Succeeded
-    status: "True"
-    type: Ready
-  ready: true
-  rulecount:
-    generate: 0
-    mutate: 0
-    validate: 1
-    verifyimages: 0
-kind: List
-metadata:
-resourceVersion: ""
